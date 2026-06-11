@@ -1,19 +1,11 @@
-import requests
-import os
+import pandas as pd
 
-TOKEN = os.environ["TELEGRAM_TOKEN"]
-CHAT_ID = os.environ["CHAT_ID"]
+url = "https://www.bi.go.id/id/statistik/informasi-kurs/jisdor/Default.aspx"
 
-message = "Bot berhasil berjalan dari GitHub Actions"
+tables = pd.read_html(url)
 
-url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+print(f"Jumlah tabel: {len(tables)}")
 
-response = requests.post(
-    url,
-    json={
-        "chat_id": CHAT_ID,
-        "text": message
-    }
-)
-
-print(response.text)
+for i, table in enumerate(tables):
+    print(f"\n===== TABLE {i} =====")
+    print(table.head())
