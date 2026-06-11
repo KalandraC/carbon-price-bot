@@ -1,11 +1,16 @@
-import pandas as pd
+import requests
 
 url = "https://www.bi.go.id/id/statistik/informasi-kurs/jisdor/Default.aspx"
 
-tables = pd.read_html(url)
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
 
-print(f"Jumlah tabel: {len(tables)}")
+response = requests.get(
+    url,
+    headers=headers,
+    timeout=30
+)
 
-for i, table in enumerate(tables):
-    print(f"\n===== TABLE {i} =====")
-    print(table.head())
+print("Status Code:", response.status_code)
+print(response.text[:3000])
